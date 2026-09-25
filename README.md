@@ -25,7 +25,9 @@ conda activate hugs-dexgraspbench
 pip install numpy==1.26.4 mujoco==3.6.0 mjviser==0.0.14 viser==1.0.27 \
   pillow==12.2.0 trimesh==4.11.5 hydra-core transforms3d matplotlib \
   scikit-learn imageio tqdm 'qpsolvers[clarabel]'
-git submodule update --init --recursive
+# The upstream utils_python repository contains a nested SSH submodule; this
+# one-command rewrite keeps recursive initialization anonymous and HTTPS-only.
+git -c url."https://github.com/".insteadOf="git@github.com:" submodule update --init --recursive
 pip install -e ./third_party/pytorch_kinematics -e ./third_party/utils_python
 ```
 
