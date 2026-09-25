@@ -88,7 +88,11 @@ class PublicContractTest(unittest.TestCase):
             if path.suffix in {".py", ".yaml", ".yml", ".sh", ".toml"}:
                 tracked_text.append(path.read_text(errors="ignore"))
         joined = "\n".join(tracked_text)
-        for forbidden in ("task=vusd", "task=vobj", "from pxr", "import pxr", "usd-core", "/mnt/disk1/", "../BimanBODex", "../AnyScaleDexLearn"):
+        forbidden_strings = (
+            "task=vusd", "task=vobj", "from pxr", "import pxr", "usd-core",
+            "/mnt/disk1/", "../BimanBODex", "../AnyScaleDexLearn",
+        )
+        for forbidden in forbidden_strings:
             self.assertNotIn(forbidden, joined)
 
 
