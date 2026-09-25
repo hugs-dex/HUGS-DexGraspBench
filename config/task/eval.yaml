@@ -1,0 +1,52 @@
+max_num: -1
+obj_scale: null  # Optional exact object-scale filter for temporary/debug eval runs, e.g. task.obj_scale=0.03.
+start: 0  # Inclusive index after optional max_num random sampling.
+end: -1  # Exclusive index after optional max_num random sampling; set <0 to keep all remaining grasps.
+
+obj_mass: 0.1   # unit: kg. Legacy fallback when obj_density_policy is disabled.
+obj_density_policy: scale_power  # fixed uses obj_density_ref; scale_power scales density by object scale.
+obj_density_ref: 700.0  # unit: kg/m^3. Calibrated near 0.1kg for a median object at scale 0.06.
+obj_density_ref_scale: 0.06
+obj_density_scale_alpha: -2.0  # density(scale)=obj_density_ref*(scale/ref_scale)^alpha.
+obj_density_min: null
+obj_density_max: null
+obj_mass_max: 0.5  # unit: kg. Clip the resolved object mass and back-compute density when exceeded.
+
+miu_coef: [0.8, 0.02]
+sim_friction_coef: [0.8, 0.02]  # MuJoCo geom friction for simulation; analytic metrics still use miu_coef.
+mj_arena_memory_bytes: 67108864  # unit: bytes. Increase MuJoCo constraint arena capacity for large dual-hand contact scenes.
+debug_render: False
+debug_viewer: False
+viewer:
+  backend: mjviser  # mjviser / mujoco. Used only when debug_viewer is True.
+  host: 127.0.0.1  # Keep the browser server private; use SSH port forwarding for remote access.
+  port: 8080
+  wait_for_client: True  # Avoid finishing the grasp motion before the browser connects.
+  hold_on_finish: True  # Keep the final frame until the client disconnects or Ctrl+C is pressed.
+  playlist:
+    enabled: False  # Keep single-grasp viewer behavior unless continuous playback is explicitly requested.
+    interval_seconds: 1.0  # Time to keep each non-final grasp's last frame before loading the next scene.
+debug_dir: ${save_dir}/debug
+tqdm: True
+
+pose_adjustment:
+  grasp_global_z_offset: 0  # unit: m. Example: -0.002 moves the evaluated grasp trajectory downward by 2mm.
+  pregrasp_extrapolate_ratio: 1.0  # 1.0 keeps the original pregrasp qpos offset from grasp; >1.0 moves it farther.
+  squeeze_extrapolate_ratio: 1.0  # 1.0 keeps the original squeeze qpos offset from grasp; >1.0 moves it farther.
+
+simulation_metrics:
+  max_pene: 0.01  # If the initial hand penetrates the object too much, regard it as a failure
+  trans_thre: 0.05
+  angle_thre: 15
+  approach_phase: False
+
+analytic_fc_metrics:
+  contact_tip_only: False # True
+  contact_threshold: 0.005
+  # type: ['qp', 'qp_dfc', 'q1', 'tdg', 'dfc']
+  type: ['qp']
+
+pene_contact_metrics:
+  contact_margin: 0.01  # unit: m. Max contact distance.
+  contact_threshold: 0.002
+  compute_self_geom_distance: True  # Set True to save nearest hand-hand geom distance diagnostics.

@@ -1,0 +1,16 @@
+xml_path: assets/hand/leap_sp/leap_sp.xml
+mocap: True
+exclude_table_contact:
+color: [0.132868, 0.496933, 0.144129, 1.0]
+finger_prefix: ['rh_fingertip_1', 'rh_fingertip_2', 'rh_fingertip_3', 'rh_thumb_fingertip']
+valid_body_name: [
+    'rh_palm_lower',
+    'rh_mcp_joint', 'rh_pip', 'rh_dip', 'rh_fingertip_base', 'rh_fingertip_1',
+    'rh_mcp_joint_2', 'rh_pip_2', 'rh_dip_2', 'rh_fingertip_base_2', 'rh_fingertip_2',
+    'rh_mcp_joint_3', 'rh_pip_3', 'rh_dip_3', 'rh_fingertip_base_3', 'rh_fingertip_3',
+    'rh_pip_4', 'rh_thumb_pip', 'rh_thumb_dip', 'rh_thumb_fingertip_base', 'rh_thumb_fingertip',
+]
+tip_body_name: ['rh_fingertip_1', 'rh_fingertip_2', 'rh_fingertip_3', 'rh_thumb_fingertip']
+wrist_body_names: ['rh_palm_lower']
+# Local palm-frame approach axis used by approach-direction diversity metrics.
+wrist_approach_axes: [[0, 0, 1]]

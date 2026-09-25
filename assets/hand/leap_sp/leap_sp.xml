@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="leap_sp">
+  <compiler angle="radian" />
+
+  <option impratio="100" integrator="implicitfast" cone="elliptic" />
+
+  <asset>
+    <material name="black" rgba="0.2 0.2 0.2 1" />
+    <mesh name="palm_lower" content_type="model/stl" file="meshes/palm_lower.stl" />
+    <mesh name="mcp_joint" content_type="model/stl" file="meshes/mcp_joint.stl" />
+    <mesh name="pip" content_type="model/stl" file="meshes/pip.stl" />
+    <mesh name="dip" content_type="model/stl" file="meshes/dip.stl" />
+    <mesh name="fingertip_base" content_type="model/stl" file="meshes/fingertip_base.stl" />
+    <mesh name="thumb_pip" content_type="model/stl" file="meshes/thumb_pip.stl" />
+    <mesh name="thumb_dip" content_type="model/stl" file="meshes/thumb_dip.stl" />
+    <mesh name="thumb_fingertip_base" content_type="model/stl" file="meshes/thumb_fingertip_base.stl" />
+    <mesh name="paxini_combined_convex" content_type="model/stl" file="meshes/paxini_combined_convex.STL" />
+  </asset>
+
+  <worldbody>
+    <body name="rh_palm_lower">
+      <inertial pos="-0.049542 -0.042914 -0.010227" quat="0.565586 0.427629 -0.574956 0.408254" mass="0.237" diaginertia="0.000407345 0.000304759 0.000180736" />
+      <geom pos="-0.0200952 0.0257578 -0.0347224" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.603922 0.14902 0.14902 1" mesh="palm_lower" />
+      <geom name="palm_collision_1" size="0.011 0.013 0.017" pos="-0.009 0.008 -0.011" type="box" />
+      <geom name="palm_collision_2" size="0.011 0.013 0.017" pos="-0.009 -0.037 -0.011" type="box" />
+      <geom name="palm_collision_3" size="0.011 0.013 0.017" pos="-0.009 -0.082 -0.011" type="box" />
+      <geom name="palm_collision_4" size="0.029 0.01 0.023" pos="-0.066 -0.078 -0.0115" quat="0.989016 0 0 -0.147806" type="box" />
+      <geom name="palm_collision_5" size="0.01 0.06 0.015" pos="-0.03 -0.035 -0.003" type="box" />
+      <geom name="palm_collision_6" size="0.005 0.06 0.01" pos="-0.032 -0.035 -0.024" quat="0.923956 0 0.382499 0" type="box" />
+      <geom name="palm_collision_7" size="0.012 0.058 0.023" pos="-0.048 -0.033 -0.0115" type="box" />
+      <geom name="palm_collision_8" size="0.022 0.026 0.023" pos="-0.078 -0.053 -0.0115" type="box" />
+      <geom name="palm_collision_9" size="0.002 0.018 0.017" pos="-0.098 -0.009 -0.006" type="box" />
+      <geom name="palm_collision_10" size="0.022 0.028 0.002" pos="-0.078 -0.003 0.01" type="box" />
+      <body name="rh_mcp_joint" pos="-0.00709525 0.0230578 -0.0187224" quat="0.5 0.5 0.5 -0.5">
+        <inertial pos="-0.022516 0.033882 0.016359" quat="0.388092 0.677951 -0.247713 0.573067" mass="0.044" diaginertia="1.74972e-05 1.61504e-05 7.21342e-06" />
+        <joint name="rh_joint_1" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.314 2.23" actuatorfrcrange="-0.95 0.95" />
+        <geom pos="0.0084069 0.00776624 0.0146574" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="mcp_joint" />
+        <geom name="if_bs_collision_1" size="0.01 0.003 0.017" pos="0 0.018 0.0147" type="box" />
+        <geom name="if_bs_collision_2" size="0.014 0.02 0.01" pos="-0.027 0.042 0.015" type="box" />
+        <geom name="if_bs_collision_3" size="0.017 0.003 0.01" pos="-0.0262 0.02 0.0146" type="box" />
+        <geom name="if_bs_collision_4" size="0.01 0.012 0.004" pos="-0.0295 0.035 0.029" type="box" />
+        <geom name="if_bs_collision_5" size="0.007 0.01 0.002" pos="0 0.005 0.03" type="box" />
+        <geom name="if_bs_collision_6" size="0.007 0.01 0.002" pos="0 0.005 -0.001" type="box" />
+        <body name="rh_pip" pos="-0.0122 0.0381 0.0145" quat="0.5 -0.5 -0.5 0.5">
+          <inertial pos="0.0075 -0.0002 -0.011" quat="0 0.707107 0 0.707107" mass="0.032" diaginertia="4.8853e-06 4.3733e-06 3.0933e-06" />
+          <joint name="rh_joint_0" pos="0 0 0" axis="0 0 -1" limited="true" range="-1.047 1.047" actuatorfrcrange="-0.95 0.95" damping="0.003" />
+          <geom pos="0.00964336 0.0003 0.000784034" quat="0.5 -0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.74902 0.74902 0.74902 1" mesh="pip" />
+          <geom name="if_px_collision" size="0.017 0.013 0.011" pos="0.0075 -0.0002 -0.011" type="box" />
+          <body name="rh_dip" pos="0.015 0.0143 -0.013" quat="0.5 0.5 -0.5 0.5">
+            <inertial pos="0.0054215 -0.029148 0.015" quat="0.687228 0.687228 0.166487 0.166487" mass="0.037" diaginertia="8.28004e-06 8.1598e-06 5.39516e-06" />
+            <joint name="rh_joint_2" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.506 1.885" actuatorfrcrange="-0.95 0.95" />
+            <geom pos="0.0211334 -0.00843212 0.00978509" quat="0 -1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="dip" />
+            <geom name="if_md_collision_1" size="0.008 0.003 0.013" pos="0 -0.02 0.015" type="box" />
+            <geom name="if_md_collision_2" size="0.01 0.002 0.017" pos="0 -0.016 0.015" type="box" />
+            <geom name="if_md_collision_3" size="0.007 0.01 0.002" pos="0 -0.0045 0.03" type="box" />
+            <geom name="if_md_collision_4" size="0.007 0.01 0.002" pos="0 -0.0045 0" type="box" />
+            <geom name="if_md_collision_5" size="0.017 0.011 0.013" pos="0.0075 -0.035 0.015" type="box" />
+            <body name="rh_fingertip_base" pos="-4.08806e-09 -0.0361 0.0002">
+              <inertial pos="-0.0008794 -0.027019 0.014594" quat="0.702905 0.710643 -0.0212937 -0.0214203" mass="0.016" diaginertia="3.71863e-06 3.02396e-06 1.6518e-06" />
+              <joint name="rh_joint_3" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.366 2.042" actuatorfrcrange="-0.95 0.95" />
+              <geom pos="0.0132864 -0.00611424 0.0145" quat="0 1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="fingertip_base" />
+              <geom name="if_ds_collision_1" size="0.01 0.003 0.015" pos="0 -0.017 0.015" type="box" />
+              <geom name="if_ds_collision_2" size="0.007 0.011 0.002" pos="0 -0.006 0.03" type="box" />
+              <geom name="if_ds_collision_3" size="0.007 0.011 0.002" pos="0 -0.006 -0.001" type="box" />
+              <body name="rh_fingertip_1" pos="0 -0.017 0.0145" quat="0 -0.707107 0 0.707107">
+                <inertial pos="0 0 0" mass="1e-10" diaginertia="1e-10 1e-10 1e-10" />
+                <geom class="visual" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <geom type="mesh" friction="0.5" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <body name="rh_finger1_tip_center" pos="0 0.0265 0.011" quat="0.707107 0 0 0.707107">
+                  <body name="rh_finger1_tip_center_lower" pos="-0.02 0 0" />
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rh_mcp_joint_2" pos="-0.00709525 -0.0223922 -0.0187224" quat="0.5 0.5 0.5 -0.5">
+        <inertial pos="-0.022516 0.033882 0.016359" quat="0.388092 0.677951 -0.247713 0.573067" mass="0.044" diaginertia="1.74972e-05 1.61504e-05 7.21342e-06" />
+        <joint name="rh_joint_5" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.314 2.23" actuatorfrcrange="-0.95 0.95" />
+        <geom pos="0.0084069 0.00776624 0.0146574" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="mcp_joint" />
+        <geom name="mf_bs_collision_1" size="0.01 0.003 0.017" pos="0 0.018 0.0147" type="box" />
+        <geom name="mf_bs_collision_2" size="0.014 0.02 0.01" pos="-0.027 0.042 0.015" type="box" />
+        <geom name="mf_bs_collision_3" size="0.017 0.003 0.01" pos="-0.0262 0.02 0.0146" type="box" />
+        <geom name="mf_bs_collision_4" size="0.01 0.012 0.004" pos="-0.0295 0.035 0.029" type="box" />
+        <geom name="mf_bs_collision_5" size="0.007 0.01 0.002" pos="0 0.005 0.03" type="box" />
+        <geom name="mf_bs_collision_6" size="0.007 0.01 0.002" pos="0 0.005 -0.001" type="box" />
+        <body name="rh_pip_2" pos="-0.0122 0.0381 0.0145" quat="0.5 -0.5 -0.5 0.5">
+          <inertial pos="0.0075 -0.0002 -0.011" quat="0 0.707107 0 0.707107" mass="0.032" diaginertia="4.8853e-06 4.3733e-06 3.0933e-06" />
+          <joint name="rh_joint_4" pos="0 0 0" axis="0 0 -1" limited="true" range="-1.047 1.047" actuatorfrcrange="-0.95 0.95" />
+          <geom pos="0.00964336 0.0003 0.000784034" quat="0.5 -0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.74902 0.74902 0.74902 1" mesh="pip" />
+          <geom name="mf_px_collision" size="0.017 0.013 0.011" pos="0.0075 -0.0002 -0.011" type="box" />
+          <body name="rh_dip_2" pos="0.015 0.0143 -0.013" quat="0.5 0.5 -0.5 0.5">
+            <inertial pos="0.0054215 -0.029148 0.015" quat="0.687228 0.687228 0.166487 0.166487" mass="0.037" diaginertia="8.28004e-06 8.1598e-06 5.39516e-06" />
+            <joint name="rh_joint_6" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.506 1.885" actuatorfrcrange="-0.95 0.95" />
+            <geom pos="0.0211334 -0.00843212 0.00978509" quat="0 -1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="dip" />
+            <geom name="mf_md_collision_1" size="0.008 0.003 0.013" pos="0 -0.02 0.015" type="box" />
+            <geom name="mf_md_collision_2" size="0.01 0.002 0.017" pos="0 -0.016 0.015" type="box" />
+            <geom name="mf_md_collision_3" size="0.007 0.01 0.002" pos="0 -0.0045 0.03" type="box" />
+            <geom name="mf_md_collision_4" size="0.007 0.01 0.002" pos="0 -0.0045 0" type="box" />
+            <geom name="mf_md_collision_5" size="0.017 0.011 0.013" pos="0.0075 -0.035 0.015" type="box" />
+            <body name="rh_fingertip_base_2" pos="0 -0.0361 0.0002">
+              <inertial pos="-0.0008794 -0.027019 0.014594" quat="0.702905 0.710643 -0.0212937 -0.0214203" mass="0.016" diaginertia="3.71863e-06 3.02396e-06 1.6518e-06" />
+              <joint name="rh_joint_7" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.366 2.042" actuatorfrcrange="-0.95 0.95" />
+              <geom pos="0.0132864 -0.00611424 0.0145" quat="0 1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="fingertip_base" />
+              <geom name="mf_ds_collision_1" size="0.01 0.003 0.015" pos="0 -0.017 0.015" type="box" />
+              <geom name="mf_ds_collision_2" size="0.007 0.011 0.002" pos="0 -0.006 0.03" type="box" />
+              <geom name="mf_ds_collision_3" size="0.007 0.011 0.002" pos="0 -0.006 -0.001" type="box" />
+              <body name="rh_fingertip_2" pos="0 -0.017 0.0145" quat="0 -0.707107 0 0.707107">
+                <inertial pos="0 0 0" mass="1e-10" diaginertia="1e-10 1e-10 1e-10" />
+                <geom class="visual" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <geom type="mesh" friction="0.5" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <body name="rh_finger2_tip_center" pos="0 0.0265 0.011" quat="0.707107 0 0 0.707107">
+                  <body name="rh_finger2_tip_center_lower" pos="-0.02 0 0" />
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rh_mcp_joint_3" pos="-0.00709525 -0.0678422 -0.0187224" quat="0.5 0.5 0.5 -0.5">
+        <inertial pos="-0.022516 0.033882 0.016359" quat="0.388092 0.677951 -0.247713 0.573067" mass="0.044" diaginertia="1.74972e-05 1.61504e-05 7.21342e-06" />
+        <joint name="rh_joint_9" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.314 2.23" actuatorfrcrange="-0.95 0.95" />
+        <geom pos="0.0084069 0.00776624 0.0146574" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="mcp_joint" />
+        <geom name="rf_bs_collision_1" size="0.01 0.003 0.017" pos="0 0.018 0.0147" type="box" />
+        <geom name="rf_bs_collision_2" size="0.014 0.02 0.01" pos="-0.027 0.042 0.015" type="box" />
+        <geom name="rf_bs_collision_3" size="0.017 0.003 0.01" pos="-0.0262 0.02 0.0146" type="box" />
+        <geom name="rf_bs_collision_4" size="0.01 0.012 0.004" pos="-0.0295 0.035 0.029" type="box" />
+        <geom name="rf_bs_collision_5" size="0.007 0.01 0.002" pos="0 0.005 0.03" type="box" />
+        <geom name="rf_bs_collision_6" size="0.007 0.01 0.002" pos="0 0.005 -0.001" type="box" />
+        <body name="rh_pip_3" pos="-0.0122 0.0381 0.0145" quat="0.5 -0.5 -0.5 0.5">
+          <inertial pos="0.0075 -0.0002 -0.011" quat="0 0.707107 0 0.707107" mass="0.032" diaginertia="4.8853e-06 4.3733e-06 3.0933e-06" />
+          <joint name="rh_joint_8" pos="0 0 0" axis="0 0 -1" limited="true" range="-1.047 1.047" actuatorfrcrange="-0.95 0.95" />
+          <geom pos="0.00964336 0.0003 0.000784034" quat="0.5 -0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.74902 0.74902 0.74902 1" mesh="pip" />
+          <geom name="rf_px_collision" size="0.017 0.013 0.011" pos="0.0075 -0.0002 -0.011" type="box" />
+          <body name="rh_dip_3" pos="0.015 0.0143 -0.013" quat="0.5 0.5 -0.5 0.5">
+            <inertial pos="0.0054215 -0.029148 0.015" quat="0.687228 0.687228 0.166487 0.166487" mass="0.037" diaginertia="8.28004e-06 8.1598e-06 5.39516e-06" />
+            <joint name="rh_joint_10" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.506 1.885" actuatorfrcrange="-0.95 0.95" />
+            <geom pos="0.0211334 -0.00843212 0.00978509" quat="0 -1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="dip" />
+            <geom name="rf_md_collision_1" size="0.008 0.003 0.013" pos="0 -0.02 0.015" type="box" />
+            <geom name="rf_md_collision_2" size="0.01 0.002 0.017" pos="0 -0.016 0.015" type="box" />
+            <geom name="rf_md_collision_3" size="0.007 0.01 0.002" pos="0 -0.0045 0.03" type="box" />
+            <geom name="rf_md_collision_4" size="0.007 0.01 0.002" pos="0 -0.0045 0" type="box" />
+            <geom name="rf_md_collision_5" size="0.017 0.011 0.013" pos="0.0075 -0.035 0.015" type="box" />
+            <body name="rh_fingertip_base_3" pos="0 -0.0361 0.0002">
+              <inertial pos="-0.0008794 -0.027019 0.014594" quat="0.702905 0.710643 -0.0212937 -0.0214203" mass="0.016" diaginertia="3.71863e-06 3.02396e-06 1.6518e-06" />
+              <joint name="rh_joint_11" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.366 2.042" actuatorfrcrange="-0.95 0.95" />
+              <geom pos="0.0132864 -0.00611424 0.0145" quat="0 1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="fingertip_base" />
+              <geom name="rf_ds_collision_1" size="0.01 0.003 0.015" pos="0 -0.017 0.015" type="box" />
+              <geom name="rf_ds_collision_2" size="0.007 0.011 0.002" pos="0 -0.006 0.03" type="box" />
+              <geom name="rf_ds_collision_3" size="0.007 0.011 0.002" pos="0 -0.006 -0.001" type="box" />
+              <body name="rh_fingertip_3" pos="0 -0.017 0.0145" quat="0 -0.707107 0 0.707107">
+                <inertial pos="0 0 0" mass="1e-10" diaginertia="1e-10 1e-10 1e-10" />
+                <geom class="visual" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <geom type="mesh" friction="0.5" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <body name="rh_finger3_tip_center" pos="0 0.0265 0.011" quat="0.707107 0 0 0.707107">
+                  <body name="rh_finger3_tip_center_lower" pos="-0.02 0 0" />
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rh_pip_4" pos="-0.0693952 -0.00124224 -0.0216224" quat="0.707107 0 0.707107 0">
+        <inertial pos="0.0075 -0.0002 -0.011" quat="0 0.707107 0 0.707107" mass="0.032" diaginertia="4.8853e-06 4.3733e-06 3.0933e-06" />
+        <joint name="rh_joint_12" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.349 2.094" actuatorfrcrange="-0.95 0.95" />
+        <geom pos="-0.00535664 0.0003 0.000784034" quat="0.5 -0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.74902 0.74902 0.74902 1" mesh="pip" />
+        <geom name="th_mp_collision" size="0.017 0.013 0.011" pos="-0.0075 -0.0002 -0.011" type="box" />
+        <body name="rh_thumb_pip" pos="0 0.0143 -0.013" quat="0.5 0.5 -0.5 0.5">
+          <inertial pos="0 0 -0.0070806" quat="0.707107 0.707107 0 0" mass="0.003" diaginertia="6.1932e-07 5.351e-07 2.1516e-07" />
+          <joint name="rh_joint_13" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.47 2.443" actuatorfrcrange="-0.95 0.95" />
+          <geom pos="0.0119619 0 -0.0158526" quat="0.707107 0.707107 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="thumb_pip" />
+          <geom name="th_bs_collision_1" size="0.009 0.0165 0.002" pos="0 0 -0.0015" type="box" />
+          <geom name="th_bs_collision_2" size="0.007 0.002 0.01" pos="0 -0.015 -0.013" type="box" />
+          <geom name="th_bs_collision_3" size="0.007 0.002 0.01" pos="0 0.015 -0.013" type="box" />
+          <body name="rh_thumb_dip" pos="0 0.0145 -0.017" quat="0.707107 -0.707107 0 0">
+            <inertial pos="-0.0020593 0.015912 -0.013733" quat="0.698518 0.697382 -0.104933 0.121324" mass="0.038" diaginertia="9.87104e-06 9.32653e-06 4.36203e-06" />
+            <joint name="rh_joint_14" pos="0 0 0" axis="0 0 -1" limited="true" range="-1.2 1.9" actuatorfrcrange="-0.95 0.95" />
+            <geom pos="0.0439687 0.057953 -0.00862868" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.866667 0.866667 0.0509804 1" mesh="thumb_dip" />
+            <geom name="th_px_collision_1" size="0.01 0.02 0.012" pos="0 0.0105 -0.014" type="box" />
+            <geom name="th_px_collision_2" size="0.01 0.002 0.016" pos="0 0.031 -0.015" type="box" />
+            <geom name="th_px_collision_3" size="0.007 0.01 0.002" pos="0 0.042 0.001" type="box" />
+            <geom name="th_px_collision_4" size="0.007 0.01 0.002" pos="0 0.042 -0.029" type="box" />
+            <geom name="th_px_collision_5" size="0.005 0.012 0.009" pos="-0.0135 0.0175 -0.011656" type="box" />
+            <body name="rh_thumb_fingertip_base" pos="0 0.0466 0.0002" quat="0 0 0 1">
+              <inertial pos="0.00096191 -0.024203 -0.014419" quat="0.35287 0.311272 -0.632839 0.614904" mass="0.049" diaginertia="2.08591e-05 2.0402e-05 4.71335e-06" />
+              <joint name="rh_joint_15" pos="0 0 0" axis="0 0 -1" limited="true" range="-1.34 1.88" actuatorfrcrange="-0.95 0.95" />
+              <geom pos="0.0625595 0.0784597 0.0489929" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.603922 0.14902 0.14902 1" mesh="thumb_fingertip_base" />
+              <geom name="th_ds_collision_1" size="0.01 0.018 0.012" pos="0 -0.0085 -0.015" type="box" />
+              <geom name="th_ds_collision_2" size="0.01 0.002 0.015" pos="0 -0.029 -0.014" type="box" />
+              <geom name="th_ds_collision_3" size="0.004 0.012 0.009" pos="0.015 -0.0175 -0.0115" type="box" />
+              <body name="rh_thumb_fingertip" pos="0 -0.03 -0.0145" quat="0 -0.707107 0 0.707107">
+                <inertial pos="0 0 0" mass="1e-10" diaginertia="1e-10 1e-10 1e-10" />
+                <geom class="visual" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <geom type="mesh" friction="0.5" rgba="0.866667 0.866667 0.0509804 1" mesh="paxini_combined_convex" />
+                <body name="rh_thumb_tip_center" pos="0 0.0265 0.011" quat="0.707107 0 0 0.707107">
+                  <body name="rh_thumb_tip_center_lower" pos="-0.02 0 0" />
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rh_wrist" pos="-0.16 -0.04 -0.01" quat="0.707107 0 0.707107 0" />
+    </body>
+  </worldbody>
+
+  <contact>
+    <exclude body1="rh_palm_lower" body2="rh_mcp_joint" />
+    <exclude body1="rh_palm_lower" body2="rh_pip" />
+    <exclude body1="rh_palm_lower" body2="rh_dip" />
+    <exclude body1="rh_palm_lower" body2="rh_mcp_joint_2" />
+    <exclude body1="rh_palm_lower" body2="rh_pip_2" />
+    <exclude body1="rh_palm_lower" body2="rh_dip_2" />
+    <exclude body1="rh_palm_lower" body2="rh_mcp_joint_3" />
+    <exclude body1="rh_palm_lower" body2="rh_pip_3" />
+    <exclude body1="rh_palm_lower" body2="rh_dip_3" />
+    <exclude body1="rh_palm_lower" body2="rh_pip_4" />
+    <exclude body1="rh_palm_lower" body2="rh_thumb_pip" />
+    <exclude body1="rh_palm_lower" body2="rh_thumb_dip" />
+    <exclude body1="rh_mcp_joint" body2="rh_mcp_joint_2" />
+    <exclude body1="rh_mcp_joint" body2="rh_mcp_joint_3" />
+    <exclude body1="rh_mcp_joint" body2="rh_pip_4" />
+    <exclude body1="rh_mcp_joint_2" body2="rh_mcp_joint_3" />
+    <exclude body1="rh_mcp_joint_2" body2="rh_pip_4" />
+    <exclude body1="rh_mcp_joint_3" body2="rh_pip_4" />
+  </contact>
+
+  <sensor>
+    <jointpos joint="rh_joint_0" name="rh_joint_0_sensor" />
+    <jointpos joint="rh_joint_1" name="rh_joint_1_sensor" />
+    <jointpos joint="rh_joint_2" name="rh_joint_2_sensor" />
+    <jointpos joint="rh_joint_3" name="rh_joint_3_sensor" />
+    <jointpos joint="rh_joint_4" name="rh_joint_4_sensor" />
+    <jointpos joint="rh_joint_5" name="rh_joint_5_sensor" />
+    <jointpos joint="rh_joint_6" name="rh_joint_6_sensor" />
+    <jointpos joint="rh_joint_7" name="rh_joint_7_sensor" />
+    <jointpos joint="rh_joint_8" name="rh_joint_8_sensor" />
+    <jointpos joint="rh_joint_9" name="rh_joint_9_sensor" />
+    <jointpos joint="rh_joint_10" name="rh_joint_10_sensor" />
+    <jointpos joint="rh_joint_11" name="rh_joint_11_sensor" />
+    <jointpos joint="rh_joint_12" name="rh_joint_12_sensor" />
+    <jointpos joint="rh_joint_13" name="rh_joint_13_sensor" />
+    <jointpos joint="rh_joint_14" name="rh_joint_14_sensor" />
+    <jointpos joint="rh_joint_15" name="rh_joint_15_sensor" />
+  </sensor>
+<actuator>
+    <position name="rh_joint_0_act" joint="rh_joint_0" class="rot" ctrlrange="-1.047 1.047" />
+    <position name="rh_joint_1_act" joint="rh_joint_1" class="mcp" ctrlrange="-0.314 2.23" />
+    <position name="rh_joint_2_act" joint="rh_joint_2" class="pip" ctrlrange="-0.506 1.885" />
+    <position name="rh_joint_3_act" joint="rh_joint_3" class="dip" ctrlrange="-0.366 2.042" />
+    <position name="rh_joint_4_act" joint="rh_joint_4" class="rot" ctrlrange="-1.047 1.047" />
+    <position name="rh_joint_5_act" joint="rh_joint_5" class="mcp" ctrlrange="-0.314 2.23" />
+    <position name="rh_joint_6_act" joint="rh_joint_6" class="pip" ctrlrange="-0.506 1.885" />
+    <position name="rh_joint_7_act" joint="rh_joint_7" class="dip" ctrlrange="-0.366 2.042" />
+    <position name="rh_joint_8_act" joint="rh_joint_8" class="rot" ctrlrange="-1.047 1.047" />
+    <position name="rh_joint_9_act" joint="rh_joint_9" class="mcp" ctrlrange="-0.314 2.23" />
+    <position name="rh_joint_10_act" joint="rh_joint_10" class="pip" ctrlrange="-0.506 1.885" />
+    <position name="rh_joint_11_act" joint="rh_joint_11" class="dip" ctrlrange="-0.366 2.042" />
+    <position name="rh_joint_12_act" joint="rh_joint_12" class="thumb_cmc" ctrlrange="-0.349 2.094" />
+    <position name="rh_joint_13_act" joint="rh_joint_13" class="thumb_axl" ctrlrange="-0.47 2.443" />
+    <position name="rh_joint_14_act" joint="rh_joint_14" class="thumb_mcp" ctrlrange="-1.20 1.90" />
+    <position name="rh_joint_15_act" joint="rh_joint_15" class="thumb_ipl" ctrlrange="-1.34 1.88" />
+    </actuator>
+  <default>
+    <geom solimp="0.999 0.999 0.001 0.0001 1" solref="0.0001 1" friction=".2" />
+    <position kp="5.0" kv="0.01" />
+    <joint damping="0.03" frictionloss="0.001" />
+    <default class="visual">
+      <geom group="1" type="mesh" contype="0" conaffinity="0" density="0" material="black" />
+      </default>
+    <default class="tip">
+      <geom type="mesh" mesh="tip" friction="0.5" />
+      </default>
+    <default class="thumb_tip">
+      <geom type="mesh" mesh="thumb_tip" friction="0.5" />
+      </default>
+    <default class="mcp">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-0.314 2.23" />
+      <position ctrlrange="-0.314 2.23" />
+      </default>
+    <default class="rot">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-1.047 1.047" />
+      <position ctrlrange="-1.047 1.047" />
+      </default>
+    <default class="pip">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-0.506 1.885" />
+      <position ctrlrange="-0.506 1.885" />
+      </default>
+    <default class="dip">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-0.366 2.042" />
+      <position ctrlrange="-0.366 2.042" />
+      </default>
+    <default class="thumb_cmc">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-0.349 2.094" />
+      <position ctrlrange="-0.349 2.094" />
+      </default>
+    <default class="thumb_axl">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-0.47 2.443" />
+      <position ctrlrange="-0.47 2.443" />
+      </default>
+    <default class="thumb_mcp">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-1.20 1.90" />
+      <position ctrlrange="-1.20 1.90" />
+      </default>
+    <default class="thumb_ipl">
+      <joint pos="0 0 0" axis="0 0 -1" limited="true" range="-1.34 1.88" />
+      <position ctrlrange="-1.34 1.88" />
+      </default>
+    </default>
+  </mujoco>

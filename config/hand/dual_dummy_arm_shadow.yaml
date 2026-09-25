@@ -1,0 +1,28 @@
+xml_path: assets/hand/dual_dummy_arm_shadow/dual_dummy_arm_shadow.xml
+mocap: False
+# bimanual: True
+exclude_table_contact:
+
+finger_prefix: ['rh_ff', 'rh_mf', 'rh_rf', 'rh_lf', 'rh_th',
+                'lh_ff', 'lh_mf', 'lh_rf', 'lh_lf', 'lh_th']
+
+valid_body_name: [
+    'rh_palm',
+    'rh_ffproximal', 'rh_ffmiddle', 'rh_ffdistal',
+    'rh_mfproximal', 'rh_mfmiddle', 'rh_mfdistal',
+    'rh_rfproximal', 'rh_rfmiddle', 'rh_rfdistal',
+    'rh_lfmetacarpal', 'rh_lfproximal', 'rh_lfmiddle', 'rh_lfdistal',
+    'rh_thproximal', 'rh_thmiddle', 'rh_thdistal',
+    'lh_palm',
+    'lh_ffproximal', 'lh_ffmiddle', 'lh_ffdistal',
+    'lh_mfproximal', 'lh_mfmiddle', 'lh_mfdistal',
+    'lh_rfproximal', 'lh_rfmiddle', 'lh_rfdistal',
+    'lh_lfmetacarpal', 'lh_lfproximal', 'lh_lfmiddle', 'lh_lfdistal',
+    'lh_thproximal', 'lh_thmiddle', 'lh_thdistal',
+]
+
+tip_body_name:
+
+wrist_body_names: ['rh_palm', 'lh_palm']
+# Local palm-frame approach axes aligned with `wrist_body_names`.
+wrist_approach_axes: [[0, 1, 0], [0, 1, 0]]

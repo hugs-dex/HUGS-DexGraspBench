@@ -1,0 +1,9 @@
+debug: False
+max_num: -1
+
+# for batch conversion (48GB GPU Memory)
+learning_batch_size: 512
+max_cuda_workers: 32
+
+data_name: BimanBODex
+data_path: null  # Required CLI input; keep producer data outside this repository.

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "name": "HUGS-DexGraspBench",
+  "release_candidate": true,
+  "source_repository": "BimanDexGraspBench",
+  "source_commit": "76378fc4ac4c7cb472fa63760af482afcb1c8412",
+  "history_policy": "new_public_history",
+  "license_status": "project_license_pending",
+  "supported_hand_families": {
+    "shadow": {
+      "single": "shadow",
+      "dual": "dual_dummy_arm_shadow",
+      "producer_dataset_single": "sim_shadow",
+      "producer_dataset_dual": "sim_dual_dummy_arm_shadow"
+    },
+    "leap_sp": {
+      "single": "leap_sp",
+      "dual": "dual_dummy_arm_leap_sp",
+      "producer_dataset_single": "sim_leap_sp",
+      "producer_dataset_dual": "sim_dual_dummy_arm_leap_sp"
+    }
+  },
+  "grasp_types": {
+    "1": "right_two",
+    "2": "right_three",
+    "3": "right_full",
+    "4": "both_three",
+    "5": "both_full"
+  },
+  "path_contract": {
+    "dataset_root_env": "ANYSCALEGRASP_DATA_ROOT",
+    "legacy_dataset_root_env": "AnyScaleGraspDataset",
+    "stored_scene_path": "dataset-relative POSIX path",
+    "stored_obj_path": "dataset-relative POSIX path",
+    "absolute_input_paths": "accepted for legacy producer artifacts only",
+    "units": {
+      "translation": "m",
+      "obj_mass": "kg",
+      "obj_density": "kg/m^3",
+      "distance_thresholds": "m",
+      "quaternion": "wxyz"
+    }
+  },
+  "output_contract": {
+    "version": "1.0",
+    "format_required_fields": [
+      "obj_path",
+      "scene_path",
+      "obj_scale",
+      "obj_pose",
+      "joint_names",
+      "bench_contract_version",
+      "path_root"
+    ],
+    "evaluation_required_fields": ["succ_flag", "grasp_type"],
+    "ik_failure_sentinel": "format_ik_failed=true with NaN stage qpos",
+    "success_semantics": "succgrasp means the configured MuJoCo criterion passed"
+  },
+  "assets": {
+    "included": [
+      "assets/hand/shadow",
+      "assets/hand/dual_dummy_arm_shadow",
+      "assets/hand/leap_sp",
+      "assets/hand/dual_dummy_arm_leap_sp"
+    ],
+    "external": ["object assets", "producer graspdata", "checkpoints", "bulk evaluation outputs"],
+    "review_required_before_public_upload": ["hand asset redistribution terms", "third-party notices"]
+  },
+  "submodules": {
+    "third_party/mujoco_menagerie": "9da3f77e7ef4cb588cefb3bae7209d20522062d8",
+    "third_party/pytorch_kinematics": "9efd2da5a650ac50dc39f94df866a34eac8c32ce",
+    "third_party/utils_python": "1844913637298df199a09818d9d93dfa9e4930b6"
+  },
+  "validation_status": {
+    "static_contract": "pending",
+    "format_smoke": "pending_external_producer_and_object_assets",
+    "mujoco_smoke": "pending_external_object_assets",
+    "learning_smoke": "pending_external_samples",
+    "portable_checkout_smoke": "pending"
+  }
+}

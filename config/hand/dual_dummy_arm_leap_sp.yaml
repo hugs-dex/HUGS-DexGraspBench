@@ -1,0 +1,27 @@
+xml_path: assets/hand/dual_dummy_arm_leap_sp/dual_dummy_arm_leap_sp.xml
+mocap: False
+# bimanual: True
+exclude_table_contact:
+
+finger_prefix: ['rh_fingertip_1', 'rh_fingertip_2', 'rh_fingertip_3', 'rh_thumb_fingertip',
+                'lh_fingertip_1', 'lh_fingertip_2', 'lh_fingertip_3', 'lh_thumb_fingertip']
+
+valid_body_name: [
+    'rh_palm_lower',
+    'rh_mcp_joint', 'rh_pip', 'rh_dip', 'rh_fingertip_base', 'rh_fingertip_1',
+    'rh_mcp_joint_2', 'rh_pip_2', 'rh_dip_2', 'rh_fingertip_base_2', 'rh_fingertip_2',
+    'rh_mcp_joint_3', 'rh_pip_3', 'rh_dip_3', 'rh_fingertip_base_3', 'rh_fingertip_3',
+    'rh_pip_4', 'rh_thumb_pip', 'rh_thumb_dip', 'rh_thumb_fingertip_base', 'rh_thumb_fingertip',
+    'lh_palm_lower', 'lh_palm_lower_left',
+    'lh_mcp_joint', 'lh_pip', 'lh_dip', 'lh_fingertip_base', 'lh_fingertip_1',
+    'lh_mcp_joint_2', 'lh_pip_2', 'lh_dip_2', 'lh_fingertip_base_2', 'lh_fingertip_2',
+    'lh_mcp_joint_3', 'lh_pip_3', 'lh_dip_3', 'lh_fingertip_base_3', 'lh_fingertip_3',
+    'lh_pip_4', 'lh_thumb_pip', 'lh_thumb_dip', 'lh_thumb_fingertip_base', 'lh_thumb_fingertip',
+]
+
+tip_body_name: ['rh_fingertip_1', 'rh_fingertip_2', 'rh_fingertip_3', 'rh_thumb_fingertip',
+                'lh_fingertip_1', 'lh_fingertip_2', 'lh_fingertip_3', 'lh_thumb_fingertip']
+
+wrist_body_names: ['rh_palm_lower', 'lh_palm_lower']
+# Local palm-frame approach axes aligned with `wrist_body_names`.
+wrist_approach_axes: [[0, 0, 1], [0, 0, 1]]

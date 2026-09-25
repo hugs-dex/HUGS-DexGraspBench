@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and editor settings
+.env
+.env.*
+!.env.example
+.venv/
+.DS_Store
+Thumbs.db
+
+# Project-local datasets and generated outputs
+/assets/object
+/output/
+/debug/
+/temp/
+/multirun/
+
+# Simulator and runtime logs
+MUJOCO_LOG.TXT
+*.log
+
+# Editor backups and release-local artifacts
+*.bak
+/evaluation/
+/succgrasp/
+/succ_collect/

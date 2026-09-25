@@ -1,0 +1,5 @@
+scale_fig: False
+roc_fig: False
+diversity: True
+diversity_success_only: True
+legacy_diversity: False
