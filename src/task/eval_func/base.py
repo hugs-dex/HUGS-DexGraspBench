@@ -29,48 +29,6 @@ def _path_has_object_info(obj_path):
     return os.path.exists(os.path.join(obj_path, "info/simplified.json"))
 
 
-def _candidate_anyscale_grasp_dataset_roots(saved_path):
-    """Collect possible local roots for the AnyScaleGrasp dataset.
-
-    Args:
-        saved_path: Original path stored in converted grasp data.
-
-    Returns:
-        Ordered list of candidate dataset roots. `AnyScaleGraspDataset` is tried
-        first, then the root embedded in saved paths, then common local mount roots.
-    """
-    candidates = []
-    for env_name in ("ANYSCALEGRASP_DATA_ROOT", "AnyScaleGraspDataset"):
-        env_root = os.environ.get(env_name)
-        if env_root:
-            candidates.append(os.path.normpath(os.path.expanduser(env_root)))
-    return list(dict.fromkeys(candidates))
-
-
-def _candidate_object_paths_from_dataset_root(obj_path, dataset_root):
-    """Build object asset path candidates under one AnyScaleGrasp dataset root.
-
-    Args:
-        obj_path: Original object asset path stored in converted grasp data.
-        dataset_root: Candidate local AnyScaleGrasp dataset root.
-
-    Returns:
-        Candidate object asset directories under `dataset_root`.
-    """
-    candidates = []
-    marker = f"{os.sep}AnyScaleGrasp{os.sep}"
-    if marker in obj_path:
-        rel_path = obj_path.split(marker, 1)[1]
-        candidates.append(os.path.normpath(os.path.join(dataset_root, rel_path)))
-
-    object_marker = f"{os.sep}object{os.sep}"
-    if object_marker in obj_path:
-        rel_path = os.path.join("object", obj_path.split(object_marker, 1)[1])
-        candidates.append(os.path.normpath(os.path.join(dataset_root, rel_path)))
-
-    return candidates
-
-
 def resolve_portable_obj_path(obj_path):
     """Resolve object asset path across machines with different dataset roots.
 
@@ -78,24 +36,22 @@ def resolve_portable_obj_path(obj_path):
         obj_path: Object asset directory stored in converted grasp data.
 
     Returns:
-        Object asset directory resolved under the local AnyScaleGrasp dataset root
+        Object asset directory resolved under the local HUGS dataset root
         when possible.
     """
     obj_path = os.path.normpath(str(obj_path))
     candidates = candidate_paths(obj_path)
-    for dataset_root in _candidate_anyscale_grasp_dataset_roots(obj_path):
-        candidates.extend(_candidate_object_paths_from_dataset_root(obj_path, dataset_root))
 
     for candidate in dict.fromkeys(map(str, candidates)):
         if _path_has_object_info(candidate):
             if candidate != obj_path:
-                logging.info("Resolved AnyScaleGrasp object path from %s to %s.", obj_path, candidate)
+                logging.info("Resolved HUGS object path from %s to %s.", obj_path, candidate)
             return candidate
 
     for candidate in dict.fromkeys(map(str, candidates)):
         if os.path.exists(candidate):
             if candidate != obj_path:
-                logging.info("Resolved existing AnyScaleGrasp object path from %s to %s.", obj_path, candidate)
+                logging.info("Resolved existing HUGS object path from %s to %s.", obj_path, candidate)
             return candidate
     return obj_path
 

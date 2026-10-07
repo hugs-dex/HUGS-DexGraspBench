@@ -15,3 +15,51 @@ ignore = ["F401"]
 # Exclude a variety of commonly ignored directories.
 respect-gitignore = true
 ignore-init-module-imports = true
+
+[project]
+name = "hugs-dexgraspbench"
+version = "0.1.0"
+description = "MuJoCo-based format conversion, evaluation, and collection for HUGS dexterous grasps."
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "numpy==1.26.4",
+    "mujoco==3.6.0",
+    "mjviser==0.0.14",
+    "viser==1.0.27",
+    "pillow==12.2.0",
+    "trimesh==4.11.5",
+    "hydra-core",
+    "omegaconf",
+    "transforms3d",
+    "matplotlib",
+    "scikit-learn",
+    "scipy",
+    "imageio",
+    "tqdm",
+    "pyyaml",
+    "qpsolvers[clarabel]",
+    "torch==2.8.0",
+    "pytorch-kinematics",
+    "mingrui-utils-python",
+]
+
+[tool.uv]
+package = false
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+pytorch-kinematics = { path = "third_party/pytorch_kinematics", editable = true }
+mingrui-utils-python = { path = "third_party/utils_python", editable = true }
+torch = [
+    { index = "pytorch-cu128", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
+    { index = "pypi", marker = "sys_platform != 'linux' or platform_machine != 'x86_64'" },
+]

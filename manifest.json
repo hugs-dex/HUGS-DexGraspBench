@@ -28,8 +28,7 @@
     "5": "both_full"
   },
   "path_contract": {
-    "dataset_root_env": "ANYSCALEGRASP_DATA_ROOT",
-    "legacy_dataset_root_env": "AnyScaleGraspDataset",
+    "dataset_root_env": "HUGS_DATASET_ROOT",
     "stored_scene_path": "dataset-relative POSIX path",
     "stored_obj_path": "dataset-relative POSIX path",
     "absolute_input_paths": "accepted for legacy producer artifacts only",
@@ -52,7 +51,10 @@
       "bench_contract_version",
       "path_root"
     ],
-    "evaluation_required_fields": ["succ_flag", "grasp_type"],
+    "evaluation_required_fields": [
+      "succ_flag",
+      "grasp_type"
+    ],
     "ik_failure_sentinel": "format_ik_failed=true with NaN stage qpos",
     "success_semantics": "succgrasp means the configured MuJoCo criterion passed"
   },
@@ -63,8 +65,16 @@
       "assets/hand/leap_sp",
       "assets/hand/dual_dummy_arm_leap_sp"
     ],
-    "external": ["object assets", "producer graspdata", "checkpoints", "bulk evaluation outputs"],
-    "review_required_before_public_upload": ["hand asset redistribution terms", "third-party notices"]
+    "external": [
+      "object assets",
+      "producer graspdata",
+      "checkpoints",
+      "bulk evaluation outputs"
+    ],
+    "review_required_before_public_upload": [
+      "hand asset redistribution terms",
+      "third-party notices"
+    ]
   },
   "submodules": {
     "third_party/mujoco_menagerie": "9da3f77e7ef4cb588cefb3bae7209d20522062d8",

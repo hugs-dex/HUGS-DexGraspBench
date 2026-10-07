@@ -11,7 +11,7 @@ records additionally contain `pred_grasp_type_id`, metadata, and stage qpos. The
 five IDs are stable: `1:right_two`, `2:right_three`, `3:right_full`,
 `4:both_three`, `5:both_full`. IDs outside this set are rejected.
 
-`scene_path` is resolved against `ANYSCALEGRASP_DATA_ROOT` and must identify a
+`scene_path` is resolved against `HUGS_DATASET_ROOT` and must identify a
 scene config whose target object contains `file_path`, `pose`, and `scale`.
 Absolute paths are accepted for legacy inputs. New records never persist an
 absolute dataset root.
@@ -28,7 +28,7 @@ metadata or a mismatched qpos length is an error.
 Every output `.npy` includes `obj_path` and `scene_path` as POSIX paths relative
 to the dataset root, `obj_scale`, `obj_pose`, `joint_names`, stage qpos fields,
 `bench_contract_version: "1.0"`, and `path_root:
-"ANYSCALEGRASP_DATA_ROOT"`. Learning records retain `pred_grasp_type_id` and
+"HUGS_DATASET_ROOT"`. Learning records retain `pred_grasp_type_id` and
 `pred_grasp_type`.
 
 If Learning wrist IK fails, the formatter writes `format_ik_failed: true`,

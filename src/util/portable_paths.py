@@ -1,6 +1,6 @@
 """Portable dataset path helpers used by format and evaluation stages.
 
-Converted records store paths relative to ``ANYSCALEGRASP_DATA_ROOT``.  Absolute
+Converted records store paths relative to ``HUGS_DATASET_ROOT``.  Absolute
 paths are accepted for older producer artifacts, but are never written to new
 records.
 """
@@ -11,14 +11,13 @@ import os
 from pathlib import Path
 
 
-DATA_ROOT_ENV = "ANYSCALEGRASP_DATA_ROOT"
-LEGACY_DATA_ROOT_ENV = "AnyScaleGraspDataset"
+DATA_ROOT_ENV = "HUGS_DATASET_ROOT"
 
 
 def dataset_root() -> Path | None:
     """Return the configured dataset root, if one is available."""
 
-    value = os.environ.get(DATA_ROOT_ENV) or os.environ.get(LEGACY_DATA_ROOT_ENV)
+    value = os.environ.get(DATA_ROOT_ENV)
     return Path(value).expanduser() if value else None
 
 
@@ -34,7 +33,7 @@ def portable_reference(path: str | os.PathLike[str]) -> str:
     """
 
     text = str(path).replace("\\", "/")
-    for marker in ("/src/curobo/content/", "/AnyScaleGrasp/"):
+    for marker in ("/src/curobo/content/",):
         if marker in text:
             text = text.split(marker, 1)[1]
             break
@@ -44,22 +43,32 @@ def portable_reference(path: str | os.PathLike[str]) -> str:
         text = text[len("./assets/") :]
 
     root = dataset_root()
-    if root is not None:
+    if root is not None and Path(text).is_absolute():
         try:
-            text = Path(text).resolve().relative_to(root.resolve()).as_posix()
+            text = Path(os.path.abspath(text)).relative_to(Path(os.path.abspath(root))).as_posix()
         except (OSError, ValueError):
-            pass
-    return text.lstrip("/") if not Path(text).is_absolute() else text
+            try:
+                text = Path(text).resolve().relative_to(root.resolve()).as_posix()
+            except (OSError, ValueError) as exc:
+                raise ValueError(f"Dataset path is outside {DATA_ROOT_ENV}: {path}") from exc
+    if Path(text).is_absolute():
+        raise ValueError(f"Set {DATA_ROOT_ENV} before exporting absolute paths: {path}")
+    if ".." in Path(text).parts:
+        raise ValueError(f"Dataset reference must stay within {DATA_ROOT_ENV}: {path}")
+    return Path(text).as_posix()
 
 
 def candidate_paths(reference: str | os.PathLike[str]) -> list[Path]:
     """Return ordered local candidates for a portable or legacy reference."""
 
-    raw = Path(str(reference).expanduser())
-    candidates: list[Path] = [raw]
+    raw = Path(str(reference)).expanduser()
+    candidates: list[Path] = []
     root = dataset_root()
     if root is not None and not raw.is_absolute():
-        candidates.extend((root / raw, root / "assets" / raw))
+        if ".." in raw.parts:
+            raise ValueError(f"Dataset reference must stay within {DATA_ROOT_ENV}: {reference}")
+        candidates.append(root / raw)
+    candidates.append(raw)
     if not raw.is_absolute():
         candidates.extend((Path.cwd() / raw, Path.cwd() / "assets" / raw))
     # Legacy records sometimes contain ``assets/object/...`` after the producer
@@ -69,7 +78,8 @@ def candidate_paths(reference: str | os.PathLike[str]) -> list[Path]:
     unique: list[Path] = []
     seen: set[Path] = set()
     for candidate in candidates:
-        normalized = candidate.resolve() if candidate.exists() else candidate
+        # Preserve the public bundle layout when a dataset subtree is a symlink.
+        normalized = Path(os.path.abspath(candidate))
         if normalized not in seen:
             seen.add(normalized)
             unique.append(normalized)

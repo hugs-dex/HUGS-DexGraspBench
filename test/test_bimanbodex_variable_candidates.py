@@ -8,6 +8,9 @@ from pathlib import Path
 from unittest import mock
 
 import numpy as np
+# Initialize torch before patch.dict restores sys.modules after the import below.
+# Removing a freshly imported torch module makes later test imports fail.
+import torch
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]

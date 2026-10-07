@@ -49,9 +49,9 @@ def main():
     args = parser.parse_args()
 
     if args.output_root is None:
-        dataset_root = os.environ.get("ANYSCALEGRASP_DATA_ROOT") or os.environ.get("AnyScaleGraspDataset")
+        dataset_root = os.environ.get("HUGS_DATASET_ROOT")
         if dataset_root is None:
-            raise ValueError("Set ANYSCALEGRASP_DATA_ROOT or pass --output_root explicitly.")
+            raise ValueError("Set HUGS_DATASET_ROOT or pass --output_root explicitly.")
         args.output_root = str(Path(dataset_root) / args.dataset_name)
 
     bimanual_hand_name = f"dual_dummy_arm_{args.hand_name}"
@@ -100,7 +100,7 @@ def main():
                     json.dump(
                         {
                             "bench_contract_version": "1.0",
-                            "path_root": "ANYSCALEGRASP_DATA_ROOT",
+                            "path_root": "HUGS_DATASET_ROOT",
                             "hand_family": args.hand_name,
                             "grasp_type": grasp_type,
                             "joint_names": _to_jsonable_list(joint_names),

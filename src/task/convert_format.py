@@ -56,7 +56,7 @@ LEARNING_HAND_FAMILY_SUFFIXES = ("leap_sp", "shadow")
 
 
 def _resolve_scene_path(scene_path):
-    """Resolve scene path with `AnyScaleGraspDataset` fallback.
+    """Resolve scene path with `HUGS_DATASET_ROOT` fallback.
 
     Args:
         scene_path: Raw scene path stored in learning data.
@@ -115,7 +115,7 @@ def _metadata_candidate_paths(dataset_root, source_family, metadata_group):
     """Build ordered metadata path candidates for Learning conversion.
 
     Args:
-        dataset_root: AnyScaleGrasp dataset root inferred from scene paths.
+        dataset_root: HUGS dataset root inferred from scene paths.
         source_family: Source hand family, e.g. `leap_sp`.
         metadata_group: Grasp type group, e.g. `right_two` or `both_full`.
 
@@ -155,14 +155,14 @@ def _load_learning_metadata(scene_path, source_family, metadata_group="both_full
 
     candidate_paths = []
     candidate_paths.extend(_metadata_candidate_paths(dataset_root, source_family, metadata_group))
-    env_dataset_root = os.environ.get("ANYSCALEGRASP_DATA_ROOT") or os.environ.get("AnyScaleGraspDataset")
+    env_dataset_root = os.environ.get("HUGS_DATASET_ROOT")
     if env_dataset_root:
         candidate_paths.extend(_metadata_candidate_paths(env_dataset_root, source_family, metadata_group))
     metadata_path = next((path for path in dict.fromkeys(candidate_paths) if os.path.exists(path)), None)
     if metadata_path is None:
         raise FileNotFoundError(
             f"Cannot find metadata.json for source_family={source_family}, metadata_group={metadata_group}. "
-            f"Checked roots from scene_path={scene_path} and AnyScaleGraspDataset={env_dataset_root}."
+            f"Checked roots from scene_path={scene_path} and HUGS_DATASET_ROOT={env_dataset_root}."
         )
     with open(metadata_path, "r") as f:
         raw_metadata = json.load(f)
@@ -537,7 +537,7 @@ def BimanBODex(params):
     new_data["obj_path"] = portable_reference(os.path.dirname(os.path.dirname(scene_cfg["scene"][obj_name]["file_path"])))
     new_data["scene_path"] = scene_reference
     new_data["bench_contract_version"] = "1.0"
-    new_data["path_root"] = "ANYSCALEGRASP_DATA_ROOT"
+    new_data["path_root"] = "HUGS_DATASET_ROOT"
 
     for i in range(len(robot_pose)):
         new_data["pregrasp_qpos"] = np.array(robot_pose[i, 0])
@@ -577,7 +577,7 @@ def _build_learning_new_data(raw_data, scene_cfg, target_obj, scene_path, pred_g
         "obj_scale": scene_cfg["scene"][target_obj]["scale"][0],
         "scene_path": portable_reference(scene_path),
         "bench_contract_version": "1.0",
-        "path_root": "ANYSCALEGRASP_DATA_ROOT",
+        "path_root": "HUGS_DATASET_ROOT",
         "pred_grasp_type_id": pred_grasp_type_id,
         "pred_grasp_type": pred_grasp_type,
         "joint_names": joint_names,

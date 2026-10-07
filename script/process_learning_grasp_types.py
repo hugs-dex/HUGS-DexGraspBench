@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Process AnyScaleDexLearn samples across all benchmark grasp types."""
+"""Process HUGS-DexLearn samples across all benchmark grasp types."""
 
 from __future__ import annotations
 
@@ -78,7 +78,7 @@ ADDITIONAL_EVAL_HYDRA_ARGS = {
 
 @dataclass(frozen=True)
 class LearningGraspJob:
-    """One AnyScaleDexLearn format/eval job for one grasp type."""
+    """One HUGS-DexLearn format/eval job for one grasp type."""
 
     suffix: str
     exp_name: str
@@ -178,7 +178,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--learning_path",
         dest="learning_path",
         required=True,
-        help="Root folder containing AnyScaleDexLearn sampled .npy files.",
+        help="Root folder containing HUGS-DexLearn sampled .npy files.",
     )
     parser.add_argument("--max-num", "--max_num", dest="max_num", type=int, default=-1)
     parser.add_argument("--n-worker", "--n_worker", dest="n_worker", type=int, default=96)
@@ -414,7 +414,7 @@ def process_job(job: LearningGraspJob, index: int, total: int, stages: list[str]
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Run the AnyScaleDexLearn all-grasp-type processing pipeline.
+    """Run the HUGS-DexLearn all-grasp-type processing pipeline.
 
     Args:
         argv: Optional argument list for tests; None uses sys.argv.
@@ -430,7 +430,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         jobs = build_jobs(args)
         cleanup_existing_outputs(jobs, stages, args.dry_run, args.yes)
-        print(f"Processing AnyScaleDexLearn samples for hand: {args.hand}, run: {args.run_name}")
+        print(f"Processing HUGS-DexLearn samples for hand: {args.hand}, run: {args.run_name}")
         print(f"Learning path: {args.learning_path}")
         print(f"Selected grasp types: {', '.join(job.suffix for job in jobs)}")
         print(f"Selected stages: {', '.join(stages)}")
@@ -445,7 +445,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(str(exc))
 
     print("\n================================================")
-    print("All selected AnyScaleDexLearn grasp types processed successfully!")
+    print("All selected HUGS-DexLearn grasp types processed successfully!")
     return 0
 
 
