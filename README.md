@@ -1,104 +1,115 @@
-# HUGS-DexGraspBench
+<h1 align="center">HUGS-DexGraspBench</h1>
 
-MuJoCo-based format conversion, simulation filtering, and success-sample collection for HUGS grasp producers. The Bench consumes producer artifacts; it does not redistribute producer datasets, checkpoints, or object meshes.
+<p align="center">Evaluate and filter synthesized and learned robot grasps in MuJoCo.</p>
 
-This candidate was extracted from `BimanDexGraspBench` at `76378fc4ac4c7cb472fa63760af482afcb1c8412`. It has a new repository history. The project-wide license decision is still pending, so this repository does not make an OSI-license claim.
+<p align="center">
+  <a href="https://github.com/hugs-dex/HUGS-Main">HUGS Project</a> ·
+  <a href="#producer-workflows">Quick Start</a> ·
+  <a href="#documentation">Documentation</a>
+</p>
 
-## Supported matrix
-
-The first release supports these four hand configurations:
-
-| Family | Single hand | Dual dummy arm |
-| --- | --- | --- |
-| Shadow | `shadow` | `dual_dummy_arm_shadow` |
-| Leap-SP | `leap_sp` | `dual_dummy_arm_leap_sp` |
-
-All five tabletop grasp types are fixed by the contract: `1:right_two`, `2:right_three`, `3:right_full`, `4:both_three`, and `5:both_full`. The first three use the single-hand configuration; the last two use its dual dummy-arm configuration. Other hands and robot arms are outside this release and are rejected by the batch entry points.
+Convert outputs from **HUGS-BODex** or **HUGS-DexLearn**, evaluate them in simulation,
+and collect successful synthesis samples for robot learning. Supports Shadow and
+Leap-SP with single-hand and dual dummy-arm configurations across five contact modes.
 
 ## Installation
 
-Use Python 3.10 with the versions validated by the source project:
+Use **Linux x86_64, Python 3.10, and [uv](https://docs.astral.sh/uv/)**. CUDA format
+conversion requires a compatible NVIDIA driver. Run from the repository root:
 
 ```bash
-conda create -n hugs-dexgraspbench python=3.10
-conda activate hugs-dexgraspbench
-pip install numpy==1.26.4 mujoco==3.6.0 mjviser==0.0.14 viser==1.0.27 \
-  pillow==12.2.0 trimesh==4.11.5 hydra-core transforms3d matplotlib \
-  scikit-learn imageio tqdm 'qpsolvers[clarabel]'
-# The upstream utils_python repository contains a nested SSH submodule; this
-# one-command rewrite keeps recursive initialization anonymous and HTTPS-only.
+# Use HTTPS for the nested utils_python submodule.
 git -c url."https://github.com/".insteadOf="git@github.com:" submodule update --init --recursive
-pip install -e ./third_party/pytorch_kinematics -e ./third_party/utils_python
+uv sync --locked
 ```
 
-MuJoCo Menagerie is required by the Shadow MJCF. No USD or `pxr` dependency is part of this release.
+`uv` manages Python and the local `.venv`; run commands with `uv run`.
+See [installation and checks](docs/installation.md) for driver requirements,
+CPU fallback, and dependencies.
 
-Set the external dataset root before evaluating records. It must contain the producer's `object/` tree (including `info/simplified.json` for each object):
+## Inputs
+
+Prepare producer grasp records and their matching object scenes/meshes, including
+per-object `info/simplified.json`. Learned robot samples also need the original
+training metadata with the complete joint order.
 
 ```bash
-export ANYSCALEGRASP_DATA_ROOT=/path/to/AnyScaleGrasp
+export HUGS_DATASET_ROOT=/path/to/hugs-dataset
 ```
 
-New converted records store `scene_path` and `obj_path` relative to this root. The legacy `AnyScaleGraspDataset` variable is accepted only when reading older records.
+See [HUGS data preparation](https://github.com/hugs-dex/HUGS-Main#data) and the
+[input contracts](docs/contracts.md). Producer data, checkpoints, and object
+meshes are obtained separately; hand assets are under `assets/hand/`.
 
-## Producer workflows
+## Producer Workflows
 
-Format a BimanBODex sample directory supplied by the producer:
+Examples assume sibling repository checkouts and default producer output roots.
+Run these commands from HUGS-DexGraspBench after generating the corresponding inputs.
+
+### BODex Grasps
+
+Use the `surface_demo` run from the [BODex quick start](https://github.com/hugs-dex/HUGS-BODex#quick-start):
 
 ```bash
-python src/main.py task=format hand=shadow \
-  exp_name=my_run_right_full task.data_name=BimanBODex \
-  task.data_path=/path/to/producer/graspdata task.max_num=10
+export HUGS_BODEX_OUTPUT_ROOT="$(realpath ../HUGS-BODex/src/curobo/content/assets/output)"
+uv run python script/process_all_grasp_types.py \
+  --hand shadow --run-name surface_demo --max-num 20 --dry-run
 ```
 
-Run headless MuJoCo evaluation and collect successful samples:
+Remove `--dry-run` to **format → evaluate → collect**. The root contains the
+suite/manipulation/run directories; pass the root, not an individual `graspdata/`
+folder. Use `--run-name human_demo` for the corresponding human-initialized run.
+
+### Learned Robot Grasps
+
+Use the saved `shadow` robot samples from [DexLearn](https://github.com/hugs-dex/HUGS-DexLearn#robot-grasp):
 
 ```bash
-python src/main.py task=eval hand=shadow exp_name=my_run_right_full \
-  task.debug_viewer=False n_worker=1 task.start=0 task.end=10
-python src/main.py task=collect hand=shadow exp_name=my_run_right_full n_worker=1
+uv run python script/process_learning_grasp_types.py \
+  --hand shadow --run-name learned_shadow \
+  --learning-path ../HUGS-DexLearn/output/shadowMulti_robotMultiHierar_shadow/tests/step_050000/shadowMulti \
+  --max-num 20 --n-worker 4 --dry-run
 ```
 
-The five-type batch wrapper accepts a producer output root through `HUGS_BODEX_OUTPUT_ROOT` or `--bodex-path`. It prompts before deleting selected outputs; `--dry-run` prints the exact commands without running them:
+Remove `--dry-run` to **format → evaluate**. This consumes robot samples;
+Human Prior exports are inputs to BODex. For Leap-SP, use `--hand leap_sp` with
+matching Leap-SP records and metadata.
+
+`--max-num` limits input records, not necessarily the total number of simulated
+grasps. Review [worker settings and reruns](docs/workflows.md#execution-and-reruns)
+before executing; the wrappers prompt before deleting existing selected outputs.
+
+## View Results
+
+After formatting, replay one right-full grasp from the same BODex run:
 
 ```bash
-export HUGS_BODEX_OUTPUT_ROOT=/path/to/BimanBODex/output
-python script/process_all_grasp_types.py --hand shadow --run-name my_run --dry-run
+uv run python src/main.py task=eval hand=shadow exp_name=surface_demo_right_full \
+  task.debug_viewer=True task.start=0 task.end=1 n_worker=1
 ```
 
-AnyScaleDexLearn samples use the corresponding wrapper. It filters on `pred_grasp_type_id`, requires metadata with the complete joint order, and saves NaN qpos plus an explicit `format_ik_failed` sentinel when IK cannot solve a sample:
+This runs simulation again and opens the browser viewer at `http://127.0.0.1:8080`.
+For remote use, forward the port over SSH. See [viewer options](docs/workflows.md#viewer).
 
-```bash
-python script/process_learning_grasp_types.py --hand leap_sp \
-  --run-name learned_run --learning-path /path/to/learning/samples --dry-run
-```
+## Outputs and Next Steps
 
-## Paths, units, and output contract
+Under `output/<run>_<type>_<hand>/`, `evaluation/` contains metrics and `succgrasp/`
+contains records passing the configured simulation criterion. The BODex workflow
+also writes grouped samples to `succ_collect/`.
 
-The format contract uses object and scene identifiers from the producer, metre translations, `[w, x, y, z]` quaternions, kilogram mass, kg/m³ density, and metre contact-distance thresholds. Joint names and qpos are always saved in the metadata order; dual records contain right and left wrist/hand fields. The grasp-type IDs above are never renumbered.
+Follow [training dataset preparation](docs/workflows.md#prepare-a-robot-training-dataset)
+to assemble successful samples for DexLearn. Simulation success does not establish
+physical-robot success.
 
-Each formatted `.npy` contains at least `obj_path`, `scene_path`, `obj_scale`, `obj_pose`, the stage qpos fields, `joint_names`, `bench_contract_version`, and `path_root`. Evaluation records preserve those fields and add `succ_flag`, `eval_failure_reason` when applicable, simulation/analytic/contact metrics, resolved object physics diagnostics, and the evaluated robot poses. `succgrasp` contains only records passing the configured simulation criterion; it is not a claim of physical-robot success. `succ_collect` contains grouped arrays and a per-grasp-type `metadata.json`.
+## Documentation
 
-The default metric configuration is in `config/task/eval.yaml`. It fixes the simulation thresholds, friction, density policy, pose-adjustment semantics, MuJoCo arena capacity, and viewer defaults. Changing a threshold or default is a new configuration version and must be recorded with the producer commit, Bench commit, asset revision, seed, worker count, and MuJoCo version.
+- [Installation and environment checks](docs/installation.md)
+- [Producer workflows, outputs, and dataset preparation](docs/workflows.md)
+- [Formats, units, and evaluation contracts](docs/contracts.md)
+- [Hand assets](assets/hand/README.md)
 
-## Viewer
+## Usage Terms
 
-Headless evaluation is the default. For one grasp, enable the `mjviser` browser viewer and forward its localhost port over SSH:
-
-```bash
-python src/main.py task=eval hand=shadow exp_name=my_run_right_full \
-  task.debug_viewer=True task.start=0 task.end=1
-```
-
-Use `task.viewer.backend=mujoco` for the native MuJoCo GUI. The browser backend binds to `127.0.0.1:8080` by default and must not be exposed on a shared host.
-
-## Assets and validation
-
-Hand MJCF/mesh assets are kept under `assets/hand/`; object assets remain an external producer/data-repository responsibility. `script/check_urdf_mjcf.py` checks an externally supplied URDF/MJCF pair. Contract and viewer tests can be run without a dataset:
-
-```bash
-python -m compileall -q src script test
-python -m unittest discover -s test -p 'test_*.py'
-```
-
-The repository intentionally contains no generated evaluation output, cache, checkpoint, or sample object dataset.
+A project-wide license has not yet been selected; this repository makes no OSI-license
+claim. See [release metadata](manifest.json), the [HUGS usage terms](https://github.com/hugs-dex/HUGS-Main#acknowledgements-and-usage-terms),
+and the [HUGS citation](https://github.com/hugs-dex/HUGS-Main#citation).
