@@ -69,7 +69,7 @@
   "submodules": {
     "third_party/mujoco_menagerie": "9da3f77e7ef4cb588cefb3bae7209d20522062d8",
     "third_party/pytorch_kinematics": "9efd2da5a650ac50dc39f94df866a34eac8c32ce",
-    "third_party/utils_python": "1844913637298df199a09818d9d93dfa9e4930b6"
+    "third_party/utils_python": "2d8dc1a5abf5899069f9ec73c13de73674f4c897"
   },
   "validation_status": {
     "static_contract": "pending",

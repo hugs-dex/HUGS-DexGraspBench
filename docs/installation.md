@@ -5,8 +5,7 @@ root. Python 3.10 is selected by `.python-version`; `pyproject.toml` declares
 dependencies and `uv.lock` fixes their resolved versions.
 
 ```bash
-# Keep recursive initialization anonymous and HTTPS-only, including nested submodules.
-git -c url."https://github.com/".insteadOf="git@github.com:" submodule update --init --recursive
+git submodule update --init
 uv sync --locked
 ```
 

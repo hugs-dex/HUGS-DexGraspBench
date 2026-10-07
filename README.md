@@ -18,8 +18,7 @@ Use **Linux x86_64, Python 3.10, and [uv](https://docs.astral.sh/uv/)**. CUDA fo
 conversion requires a compatible NVIDIA driver. Run from the repository root:
 
 ```bash
-# Use HTTPS for the nested utils_python submodule.
-git -c url."https://github.com/".insteadOf="git@github.com:" submodule update --init --recursive
+git submodule update --init
 uv sync --locked
 ```
 
