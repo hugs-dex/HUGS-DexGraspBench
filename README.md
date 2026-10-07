@@ -133,6 +133,10 @@ Under `output/<run>_<type>_<hand>/`, `evaluation/` contains metrics and `succgra
 contains records passing the configured simulation criterion. The BODex workflow
 also writes grouped samples to `succ_collect/`.
 
+For bimanual modes, `<hand>` is `dual_dummy_arm_shadow` or `dual_dummy_arm_leap_sp`.
+MuJoCo skips very small convex object parts and logs their counts; the grasps are
+still evaluated.
+
 Follow [training dataset preparation](docs/workflows.md#prepare-a-robot-training-dataset)
 to assemble successful samples for DexLearn. Simulation success does not establish
 physical-robot success.

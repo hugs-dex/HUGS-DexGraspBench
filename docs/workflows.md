@@ -105,6 +105,9 @@ The Learning wrapper's `--yes` bypasses prompts; it is unnecessary for a first r
 
 Each experiment writes under `output/<run>_<type>_<hand>/`:
 
+`<hand>` is the resolved hand configuration: `shadow` or `leap_sp` for single-hand
+modes, and `dual_dummy_arm_shadow` or `dual_dummy_arm_leap_sp` for bimanual modes.
+
 | Directory | Contents |
 | --- | --- |
 | `graspdata/` | Formatted grasps with metadata and stage qpos |
